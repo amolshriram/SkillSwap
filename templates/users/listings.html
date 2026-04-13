@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Browse Skills • SkillSwap{% endblock %}
+{% block content %}
+  <div class="pagehead">
+    <div>
+      <h1>Skill listings</h1>
+      <p class="muted">Search by skill name or user name, then request a swap.</p>
+    </div>
+    <div class="actions">
+      <form method="get" class="search">
+        <input name="q" value="{{ q }}" placeholder="Search (e.g., Python, Guitar)" />
+        <button class="btn btn--small" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+
+  {% if users %}
+    <div class="cards">
+      {% for u in users %}
+        <div class="card card--tight">
+          <div class="card__row">
+            <div>
+              <h2 class="h2">{{ u.full_name }}</h2>
+              <div class="muted">{{ u.email }}</div>
+            </div>
+            <div>
+              <a class="btn btn--small" href="{% url 'swap_request_create' u.id %}">Request swap</a>
+            </div>
+          </div>
+          <div class="muted mt">Offered skills:</div>
+          {% if u.offered_skills %}
+            <ul class="list list--compact">
+              {% for s in u.offered_skills %}
+                <li>
+                  <strong>{{ s.skill_name }}</strong>
+                  <span class="muted">({{ s.skill_level }})</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="muted">No offered skills listed.</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card">
+      <p class="muted">No users found. Try another search.</p>
+    </div>
+  {% endif %}
+{% endblock %}
+

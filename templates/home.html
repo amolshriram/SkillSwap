@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}SkillSwap • Swap Skills, Not Money{% endblock %}
+{% block content %}
+  <section class="u-hero">
+    <div class="u-hero__grid">
+      <div>
+        <div class="u-kicker">Learn by swapping skills with peers</div>
+        <h1 class="u-title">Build real skills with real people.</h1>
+        <p class="u-lead">
+          Create a profile, list what you can teach and what you want to learn, then swap time with learners around you.
+        </p>
+        <div class="u-hero__cta">
+          <a class="btn" href="{% url 'register' %}">Sign up</a>
+          <a class="btn btn--ghost" href="{% url 'skill_listings' %}">Browse skills</a>
+        </div>
+        <div class="u-trust">
+          <span class="u-trust__item">No payments</span>
+          <span class="u-dot">•</span>
+          <span class="u-trust__item">Proficiency levels</span>
+          <span class="u-dot">•</span>
+          <span class="u-trust__item">Inbox + requests</span>
+        </div>
+      </div>
+
+      <div class="u-hero__panel card">
+        <div class="u-panel__head">
+          <div class="u-panel__title">Featured “skill swaps”</div>
+          <a class="u-link" href="{% url 'skill_listings' %}">View all</a>
+        </div>
+        <div class="u-coursegrid">
+          <div class="u-course card">
+            <div class="u-course__thumb u-course__thumb--python"></div>
+            <div class="u-course__body">
+              <div class="u-course__title">Python for Beginners</div>
+              <div class="u-course__meta muted small">Offered • Advanced</div>
+            </div>
+          </div>
+          <div class="u-course card">
+            <div class="u-course__thumb u-course__thumb--guitar"></div>
+            <div class="u-course__body">
+              <div class="u-course__title">Guitar Basics</div>
+              <div class="u-course__meta muted small">Wanted • Beginner</div>
+            </div>
+          </div>
+          <div class="u-course card">
+            <div class="u-course__thumb u-course__thumb--figma"></div>
+            <div class="u-course__body">
+              <div class="u-course__title">UI/UX with Figma</div>
+              <div class="u-course__meta muted small">Offered • Intermediate</div>
+            </div>
+          </div>
+          <div class="u-course card">
+            <div class="u-course__thumb u-course__thumb--english"></div>
+            <div class="u-course__body">
+              <div class="u-course__title">Spoken English</div>
+              <div class="u-course__meta muted small">Wanted • Intermediate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-section">
+    <div class="u-section__head">
+      <h2 class="u-section__title">Recommended categories</h2>
+      <a class="u-link" href="{% url 'skill_listings' %}">Explore more</a>
+    </div>
+    <div class="u-chipgrid">
+      <a class="u-chip" href="{% url 'skill_listings' %}?q=python">Python</a>
+      <a class="u-chip" href="{% url 'skill_listings' %}?q=web">Web Development</a>
+      <a class="u-chip" href="{% url 'skill_listings' %}?q=design">Design</a>
+      <a class="u-chip" href="{% url 'skill_listings' %}?q=music">Music</a>
+      <a class="u-chip" href="{% url 'skill_listings' %}?q=english">Languages</a>
+      <a class="u-chip" href="{% url 'skill_listings' %}?q=data">Data</a>
+    </div>
+  </section>
+
+  <section class="u-section u-how" data-how>
+    <div class="u-section__head">
+      <h2 class="u-section__title">How SkillSwap works</h2>
+      <div class="muted small">Simple, structured, and focused</div>
+    </div>
+    <div class="u-how__bg" aria-hidden="true">
+      <span class="u-how__blob u-how__blob--a"></span>
+      <span class="u-how__blob u-how__blob--b"></span>
+      <span class="u-how__blob u-how__blob--c"></span>
+      <span class="u-how__gridlines"></span>
+    </div>
+    <div class="u-steps u-steps--interactive" data-how-steps>
+      <button class="card u-step" type="button" data-step="1">
+        <div class="u-step__num">1</div>
+        <div class="u-step__title">Create a profile</div>
+        <div class="muted">Add offered/wanted skills and proficiency levels.</div>
+      </button>
+      <button class="card u-step" type="button" data-step="2">
+        <div class="u-step__num">2</div>
+        <div class="u-step__title">Send requests</div>
+        <div class="muted">Request swaps with clear offered ↔ wanted pairing.</div>
+      </button>
+      <button class="card u-step" type="button" data-step="3">
+        <div class="u-step__num">3</div>
+        <div class="u-step__title">Learn together</div>
+        <div class="muted">Use inbox to coordinate and start exchanging.</div>
+      </button>
+    </div>
+  </section>
+{% endblock %}

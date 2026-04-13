@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} • SkillSwap{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>{{ title }}</h1>
+    <form method="post" class="form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="grid2">
+        <div class="field">
+          <label for="{{ form.category.id_for_label }}">Category</label>
+          {{ form.category }}
+          {{ form.category.errors }}
+        </div>
+        <div class="field">
+          <label for="{{ form.skill_level.id_for_label }}">Skill level</label>
+          {{ form.skill_level }}
+          {{ form.skill_level.errors }}
+        </div>
+      </div>
+      <div class="field">
+        <label for="{{ form.skill_name.id_for_label }}">Skill name</label>
+        {{ form.skill_name }}
+        {{ form.skill_name.errors }}
+      </div>
+      <button class="btn" type="submit">Save</button>
+      <a class="btn btn--ghost" href="{% url 'profile' %}">Cancel</a>
+    </form>
+  </div>
+{% endblock %}
+

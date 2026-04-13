@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Dashboard • SkillSwap{% endblock %}
+{% block content %}
+  <div class="dash-head">
+    <div>
+      <div class="muted small">Dashboard</div>
+      <h1 class="dash-title">Welcome, {{ request.user.full_name }}</h1>
+      <p class="muted dash-subtitle">Manage your skills and handle swap requests in one place.</p>
+    </div>
+    <div class="actions">
+      <a class="btn btn--ghost" href="{% url 'skill_listings' %}">Browse skills</a>
+      <a class="btn" href="{% url 'profile' %}">Edit profile</a>
+    </div>
+  </div>
+
+  <div class="dash-stats">
+    <div class="card dash-stat">
+      <div class="dash-stat__label">Offered skills</div>
+      <div class="dash-stat__num">{{ offered|length }}</div>
+    </div>
+    <div class="card dash-stat">
+      <div class="dash-stat__label">Wanted skills</div>
+      <div class="dash-stat__num">{{ wanted|length }}</div>
+    </div>
+    <div class="card dash-stat">
+      <div class="dash-stat__label">Incoming requests</div>
+      <div class="dash-stat__num">{{ incoming|length }}</div>
+    </div>
+    <div class="card dash-stat">
+      <div class="dash-stat__label">Outgoing requests</div>
+      <div class="dash-stat__num">{{ outgoing|length }}</div>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <section class="card">
+      <div class="card-head">
+        <h2 class="h2">Skills offered</h2>
+        <a class="btn btn--small btn--ghost" href="{% url 'profile' %}">Add / edit</a>
+      </div>
+      {% if offered %}
+        <ul class="list list--clean">
+          {% for s in offered %}
+            <li>
+              <span class="tag">Offered</span>
+              <strong>{{ s.skill_name }}</strong>
+              <span class="muted">({{ s.skill_level }})</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No offered skills yet.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2 class="h2">Skills wanted</h2>
+        <a class="btn btn--small btn--ghost" href="{% url 'profile' %}">Add / edit</a>
+      </div>
+      {% if wanted %}
+        <ul class="list list--clean">
+          {% for s in wanted %}
+            <li>
+              <span class="tag tag--alt">Wanted</span>
+              <strong>{{ s.skill_name }}</strong>
+              <span class="muted">({{ s.skill_level }})</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No wanted skills yet.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Quick actions</h2>
+      <div class="dash-actions">
+        <a class="card dash-action" href="{% url 'skill_listings' %}">
+          <div class="dash-action__title">Browse skills</div>
+          <div class="muted small">Find people to swap with</div>
+        </a>
+        <a class="card dash-action" href="{% url 'inbox' %}">
+          <div class="dash-action__title">Open inbox</div>
+          <div class="muted small">Chat and coordinate sessions</div>
+        </a>
+        <a class="card dash-action" href="{% url 'profile' %}">
+          <div class="dash-action__title">Update profile</div>
+          <div class="muted small">Keep skills current</div>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <div class="dash-requests">
+    <section class="card">
+      <div class="card-head">
+        <h2 class="h2">Incoming swap requests</h2>
+        <a class="btn btn--small btn--ghost" href="{% url 'inbox' %}">View inbox</a>
+      </div>
+      {% if incoming %}
+        <div class="table data-table">
+          <div class="row row--head">
+            <div>From</div><div>They offer</div><div>They want</div><div>Status</div><div>Action</div>
+          </div>
+          {% for r in incoming %}
+            <div class="row">
+              <div><strong>{{ r.sender.full_name }}</strong></div>
+              <div>{{ r.skill_offered }}</div>
+              <div>{{ r.skill_requested }}</div>
+              <div><span class="pill pill--{{ r.status|lower }}">{{ r.status }}</span></div>
+              <div>
+                {% if r.status == "Pending" %}
+                  <form method="post" action="{% url 'swap_request_accept' r.id %}" class="inline">
+                    {% csrf_token %}
+                    <button class="btn btn--small" type="submit">Accept</button>
+                  </form>
+                  <form method="post" action="{% url 'swap_request_reject' r.id %}" class="inline">
+                    {% csrf_token %}
+                    <button class="btn btn--small btn--danger" type="submit">Reject</button>
+                  </form>
+                {% else %}
+                  <span class="muted">—</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">No incoming requests.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2 class="h2">Outgoing swap requests</h2>
+        <a class="btn btn--small btn--ghost" href="{% url 'skill_listings' %}">Send request</a>
+      </div>
+      {% if outgoing %}
+        <div class="table data-table data-table--compact">
+          <div class="row row--head">
+            <div>To</div><div>You offer</div><div>You want</div><div>Status</div>
+          </div>
+          {% for r in outgoing %}
+            <div class="row">
+              <div><strong>{{ r.receiver.full_name }}</strong></div>
+              <div>{{ r.skill_offered }}</div>
+              <div>{{ r.skill_requested }}</div>
+              <div><span class="pill pill--{{ r.status|lower }}">{{ r.status }}</span></div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">No outgoing requests.</p>
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Login • SkillSwap{% endblock %}
+{% block content %}
+  <div class="auth">
+    <div class="card">
+      <h1>Login</h1>
+      <p class="muted">Use your email and password.</p>
+      <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="grid2--auth">
+          <div class="field">
+            <label for="{{ form.username.id_for_label }}">Email</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.password.id_for_label }}">Password</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+          </div>
+        </div>
+        <button class="btn" type="submit">Login</button>
+        <p class="muted mt">
+          New here? <a href="{% url 'register' %}">Create an account</a>
+        </p>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+

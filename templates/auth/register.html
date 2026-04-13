@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Register • SkillSwap{% endblock %}
+{% block content %}
+  <div class="auth">
+    <div class="card">
+      <h1>Create account</h1>
+      <p class="muted">
+        Add at least one offered/wanted skill now (optional). You can add more later from your profile.
+      </p>
+      <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="grid2--auth">
+          <div class="field">
+            <label for="{{ form.full_name.id_for_label }}">Name</label>
+            {{ form.full_name }}
+            {{ form.full_name.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.password2.id_for_label }}">Confirm password</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+          </div>
+        </div>
+
+        <h2 class="h2 mt2">Skills (optional)</h2>
+        <div class="grid2--auth">
+          <div class="field">
+            <label for="{{ form.offered_skill_name.id_for_label }}">Skill offered</label>
+            {{ form.offered_skill_name }}
+            {{ form.offered_skill_name.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.offered_skill_level.id_for_label }}">Offered skill level</label>
+            {{ form.offered_skill_level }}
+            {{ form.offered_skill_level.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.wanted_skill_name.id_for_label }}">Skill wanted</label>
+            {{ form.wanted_skill_name }}
+            {{ form.wanted_skill_name.errors }}
+          </div>
+          <div class="field">
+            <label for="{{ form.wanted_skill_level.id_for_label }}">Wanted skill level</label>
+            {{ form.wanted_skill_level }}
+            {{ form.wanted_skill_level.errors }}
+          </div>
+        </div>
+
+        <button class="btn mt2" type="submit">Register</button>
+        <p class="muted mt">
+          Already have an account? <a href="{% url 'login' %}">Login</a>
+        </p>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+

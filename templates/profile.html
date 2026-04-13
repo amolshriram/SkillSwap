@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Profile • SkillSwap{% endblock %}
+{% block content %}
+  <div class="pagehead">
+    <div>
+      <h1>Profile</h1>
+      <p class="muted">Update your info and manage your skills.</p>
+    </div>
+    <div class="actions">
+      <a class="btn btn--ghost" href="{% url 'dashboard' %}">Back to dashboard</a>
+      <a class="btn" href="{% url 'skill_add' %}">Add skill</a>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <section class="card">
+      <h2 class="h2">Account details</h2>
+      <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="field">
+          <label for="{{ form.full_name.id_for_label }}">Name</label>
+          {{ form.full_name }}
+          {{ form.full_name.errors }}
+        </div>
+        <div class="field">
+          <label for="{{ form.email.id_for_label }}">Email</label>
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+        <button class="btn" type="submit">Save changes</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Your skills</h2>
+      {% if skills %}
+        <ul class="list">
+          {% for s in skills %}
+            <li class="skillrow">
+              <div>
+                <span class="tag {% if s.category == 'Wanted' %}tag--alt{% endif %}">{{ s.category }}</span>
+                <strong>{{ s.skill_name }}</strong>
+                <span class="muted">({{ s.skill_level }})</span>
+              </div>
+              <div class="skillrow__actions">
+                <a class="btn btn--small btn--ghost" href="{% url 'skill_edit' s.id %}">Edit</a>
+                <form method="post" action="{% url 'skill_delete' s.id %}" class="inline" data-confirm="Delete this skill?">
+                  {% csrf_token %}
+                  <button class="btn btn--small btn--danger" type="submit">Delete</button>
+                </form>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No skills yet. Add at least one offered skill to start swapping.</p>
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}
+

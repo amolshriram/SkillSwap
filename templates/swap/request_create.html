@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Request Swap • SkillSwap{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>Request a swap</h1>
+    <p class="muted">
+      You are requesting a swap with <strong>{{ receiver.full_name }}</strong>.
+    </p>
+
+    {% if offered_count == 0 %}
+      <div class="message message--warning">
+        You have no <strong>offered</strong> skills yet. Add at least one offered skill before sending requests.
+        <a href="{% url 'skill_add' %}">Add skill</a>
+      </div>
+    {% endif %}
+
+    {% if requested_count == 0 %}
+      <div class="message message--warning">
+        This user has no <strong>offered</strong> skills listed yet, so you can’t request a specific skill.
+      </div>
+    {% endif %}
+
+    <form method="post" class="form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="grid2">
+        <div class="field">
+          <label for="{{ form.skill_offered.id_for_label }}">Your offered skill</label>
+          {{ form.skill_offered }}
+          {{ form.skill_offered.errors }}
+        </div>
+        <div class="field">
+          <label for="{{ form.skill_requested.id_for_label }}">Skill you want</label>
+          {{ form.skill_requested }}
+          {{ form.skill_requested.errors }}
+        </div>
+      </div>
+      <button class="btn" type="submit" {% if offered_count == 0 or requested_count == 0 %}disabled{% endif %}>
+        Send request
+      </button>
+      <a class="btn btn--ghost" href="{% url 'skill_listings' %}">Back</a>
+    </form>
+  </div>
+{% endblock %}
+

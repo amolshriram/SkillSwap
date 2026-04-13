@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Inbox • SkillSwap{% endblock %}
+{% block content %}
+  <div class="pagehead">
+    <div>
+      <h1>Inbox</h1>
+      <p class="muted">Chats are created automatically after a swap request is accepted.</p>
+    </div>
+    <div class="actions">
+      <a class="btn btn--ghost" href="{% url 'dashboard' %}">Back to dashboard</a>
+    </div>
+  </div>
+
+  {% if conversations %}
+    <div class="cards">
+      {% for c in conversations %}
+        {% if request.user.id == c.user1_id %}
+          {% with other=c.user2 last_msg=c.messages.last %}
+            <a class="card card--tight convo" href="{% url 'conversation_detail' c.id %}">
+              <div class="convo__title">{{ other.full_name }}</div>
+              <div class="muted small">{{ other.email }}</div>
+              <div class="muted small mt">
+                {% if last_msg %}
+                  Last message: {{ last_msg.body|truncatechars:60 }}
+                {% else %}
+                  No messages yet. Say hi.
+                {% endif %}
+              </div>
+            </a>
+          {% endwith %}
+        {% else %}
+          {% with other=c.user1 last_msg=c.messages.last %}
+            <a class="card card--tight convo" href="{% url 'conversation_detail' c.id %}">
+              <div class="convo__title">{{ other.full_name }}</div>
+              <div class="muted small">{{ other.email }}</div>
+              <div class="muted small mt">
+                {% if last_msg %}
+                  Last message: {{ last_msg.body|truncatechars:60 }}
+                {% else %}
+                  No messages yet. Say hi.
+                {% endif %}
+              </div>
+            </a>
+          {% endwith %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card">
+      <p class="muted">No conversations yet. Accept a swap request to unlock chat.</p>
+    </div>
+  {% endif %}
+{% endblock %}
+

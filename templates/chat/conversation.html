@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Chat • SkillSwap{% endblock %}
+{% block content %}
+  <div class="pagehead">
+    <div>
+      <h1>Chat with {{ other_user.full_name }}</h1>
+      <p class="muted small">{{ other_user.email }}</p>
+    </div>
+    <div class="actions">
+      <a class="btn btn--ghost" href="{% url 'inbox' %}">Back to inbox</a>
+    </div>
+  </div>
+
+  <div class="card chat">
+    <div class="chat__messages" id="chatMessages">
+      {% if messages_list %}
+        {% for m in messages_list %}
+          <div class="bubble {% if m.sender_id == request.user.id %}bubble--me{% else %}bubble--them{% endif %}">
+            <div class="bubble__meta">
+              <strong>{% if m.sender_id == request.user.id %}You{% else %}{{ m.sender.full_name }}{% endif %}</strong>
+              <span class="muted small">{{ m.created_at|date:"M d, Y H:i" }}</span>
+            </div>
+            <div class="bubble__body">{{ m.body|linebreaksbr }}</div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="muted">No messages yet. Start the conversation.</p>
+      {% endif %}
+    </div>
+
+    <form method="post" class="chat__composer form">
+      {% csrf_token %}
+      <input name="body" placeholder="Type a message…" autocomplete="off" maxlength="2000" />
+      <button class="btn" type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    // Scroll chat to bottom on load
+    (function(){
+      const el = document.getElementById("chatMessages");
+      if (el) el.scrollTop = el.scrollHeight;
+    })();
+  </script>
+{% endblock %}
+
