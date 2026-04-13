@@ -1,6 +1,7 @@
 # Skill Swap Platform (Peer-to-Peer Skill Exchange)
 
-A full-stack web application where users **swap skills without money**. Built with **Django (Python)**, **SQLite**, **HTML/CSS**, and **JavaScript**.
+A full-stack web application where users swap skills without money.
+Built with Django (Python), SQLite, HTML/CSS, and JavaScript.
 
 ## Features
 
@@ -61,3 +62,6 @@ Open admin at `http://127.0.0.1:8000/admin/`
 - **Dashboard Module**: Personalized home with skills + requests
 - **Admin Module**: Manage users, skills, and requests
 
+=======
+# Skill-Swap-Platform-A-Peer-to-Peer-Skill-Exchange-Web-Application
+>>>>>>> e4cb0f2ef6650ba1d1b47f0a66eb35f617b87bff
