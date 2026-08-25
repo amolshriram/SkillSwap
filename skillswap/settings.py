@@ -4,7 +4,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "dev-only-change-me"
 DEBUG = True
-ALLOWED_HOSTS: list[str] = []
+ALLOWED_HOSTS: list[str] = [
+    "skill-swap-amber-sigma.vercel.app",
+    "localhost",
+    "127.0.0.1",
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
