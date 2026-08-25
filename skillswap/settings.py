@@ -1,9 +1,12 @@
+import os
+import dj_database_url
+
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "dev-only-change-me"
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS: list[str] = [
     # 'skill-swap-eight-lac.vercel.app',
     # 'skill-swap-amber-sigma.vercel.app',
@@ -53,11 +56,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "skillswap.wsgi.application"
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
