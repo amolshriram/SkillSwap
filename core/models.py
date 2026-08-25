@@ -93,7 +93,7 @@ class Conversation(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=~models.Q(user1=models.F("user2")),
+                condition=~models.Q(user1=models.F("user2")),
                 name="conversation_users_not_equal",
             )
         ]
